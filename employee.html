@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Employee Form</title>
+
+    <!-- Boostrap CSS -->
+    <link rel="stylesheet" href="resources/bootstrap-5.2.3/css/bootstrap.min.css">
+
+    <!-- Boostrap Js -->
+    <script src="resources/bootstrap-5.2.3/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Font Awesome CSS -->
+    <link rel="stylesheet" href="resources/fontawesome-6.4.2/css/all.css">
+
+    <!-- Employee CSS -->
+    <link rel="stylesheet" href="resources/css/employee.css">
+
+    <!-- Buttom CSS -->
+    <link rel="stylesheet" href="resources/css/button.css">
+
+    <!-- Employee CSS -->
+    <link rel="stylesheet" href="resources/css/common.css">
+
+</head>
+
+<body>
+    <div class="container-fluid mt-2">
+        <!-- title start -->
+        <div class="row p-2">
+            <div class="col-12 text-center title-div badge">
+                <h2><i class="fa-solid fa-user-tie fa-1x"></i>
+                    Employee Management</h2>
+            </div>
+        </div>
+        <!-- title end -->
+
+        <!-- Form Area Start -->
+        <div class="row mt-2">
+            <div class="col-md-1"></div>
+            <div class="col-md-7">
+                <div id="divModify">
+                    <button type="button" style="width: 25%;" onclick="employeeFormRefill();" class="btn btn-outline-warning fw-bold">Edit</button>
+                    <button type="button" style="width: 25%;" onclick="deleteEmployee(window['editOb'],window['editRow'])" class="btn btn-outline-danger fw-bold">Delete</button>
+                    <button type="button" style="width: 25%;" onclick="printEmployee();" class="btn btn-outline-info fw-bold">Print</button>
+                </div>
+            </div>
+            <div class="col-md-4 text-end">
+                <!-- Button -->
+                <button type="button" class="btn" id="addToTableButton" data-bs-toggle="modal" data-bs-target="#modalEmployeeAdd">
+                    <i class="fa-solid fa-plus"></i>Add New Employee
+                </button>
+            </div>
+        </div>
+        <!-- Form Area End -->
+
+        <!-- Table Area Start -->
+        <div class="row mt-2">
+            <div class="row-cols-md-1"></div>
+            <!-- Table Start -->
+            <div class="row-cols-md-10">
+                <table class="table table-bordered table-hover" id="tableEmployee">
+                    <thead class="table-active">
+                    <tr>
+                         <th>#</th>
+                         <th>Full Name</th>
+                         <th>Mobile</th>
+                         <th>Has User Account</th>
+                         <th>NIC</th>
+                         <th>Designation</th>
+                         <th>Status</th>
+                         <th>Modify</th>
+                    </tr>
+                    </thead>
+                    <tbody id="tbodyValue">
+     
+                    </tbody>
+               </table>
+            </div>
+            <!-- Table End -->
+            <div class="row-cols-md-1"></div>
+        </div>
+        <!-- Table Area End -->
+    </div>
+
+
+    <!-- Employee Add Modal Start -->
+    <div class="modal" id="modalEmployeeAdd" data-bs-backdrop="static" data-bs-keyboard="false">
+        <div class="modal-dialog modal-xl">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h2 >Edit Employee</h2>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <!-- Form Start -->
+                    <div class="card form-area">
+                        <div class="card-body">
+                            <form onsubmit="return false"> 
+                                <!-- form onsubmit return is used to stop auto submission and then to force a manual submission -->
+
+                                <div class="row mt-1">
+                                    <div class="col-9"></div>
+                                    <div class="col-3">
+                                        <span class="required"><span class="text-danger">*</span>required</span>
+                                    </div>
+                                </div>
+
+                                <!-- Fullname start -->
+
+                                <div class="row mt-1">
+                                    <label for="inputFullName" class="col-3 col-form-label fw-bold">
+                                        Full Name : <span class="text-danger">*</span>
+                                    </label>
+
+                                    <div class="col-09">
+                                        <input type="text" class="form-control" onkeyup="employee.fullName=this.value" placeholder="Enter Full Name"
+                                            id="inputFullName" required>
+                                    </div>
+                                </div>
+                                <!-- full name end -->
+
+                                <!-- callingname/nic/gender/dob -->
+                                <div class="row mt-1">
+                                    <div class="col-3">
+                                        <label for="inputCallingName" class="form-label fw-bold">
+                                            Calling name : <span class="text-danger">*</span>
+                                        </label>
+                                        <input type="text" class="form-control" placeholder="Enter Calling Name"
+                                            id="inputCallingName" onkeyup="employee.callingName=this.value" required>
+
+                                    </div>
+                                    <!-- NIC -->
+                                    <div class="col-3">
+                                        <label for="inputNIC" class="form-label fw-bold">
+                                            NIC : <span class="text-danger">*</span>
+
+                                        </label>
+                                        <div class="input-group">
+                                            <span class="input-group-text"><i
+                                                    class="fa-solid fa-id-card fa-1x"></i></span>
+                                            <input type="text" class="form-control" placeholder="Enter NIC Number"
+                                                id="inputNIC" required>
+                                        </div>
+
+
+                                    </div>
+                                    <!-- Gender -->
+                                    <div class="col-3">
+                                        <div class="row">
+                                            <label for="radioGenderMale" class="form-label fw-bold">
+                                                Gender <span class="text-danger">*</span>
+                                            </label>
+                                        </div>
+                                        <div class="form-check form-check-inline">
+                                            <input class="form-check-input" type="radio" name="gender"
+                                                id="radioGenderMale" value="Male" checked>
+                                            <label class="form-check-label" for="radioGenderMale" fw-bold>Male</label>
+                                        </div>
+                                        <div class="form-check form-check-inline">
+                                            <input class="form-check-input" type="radio" name="gender"
+                                                id="radioGenderFemale" value="Female">
+                                            <label class="form-check-label"
+                                                for="radioGenderFemale fw-bold">Female</label>
+                                        </div>
+
+                                    </div>
+                                    <!-- dob -->
+
+                                    <div class="col-3">
+                                        <label for="inputDOB" class="form-label fw-bold">
+                                            Date of Birth <span class="text-danger">*</span>
+                                        </label>
+
+                                        <input type="date" class="form-control" name="" id="inputDOB" required>
+
+
+
+
+
+                                    </div>
+                                </div>
+                                <!-- mobile/land/email -->
+                                <!-- mobile -->
+
+                                <div class="row mt-1">
+                                    <div class="col-4">
+                                        <label for="inputMobileNo" class="form-label fw-bold">
+                                            Mobile No : <span class="text-danger">*</span>
+
+                                        </label>
+                                        <div class="input-group">
+                                            <span class="input-group-text"><i
+                                                    class="fa-solid fa-mobile-retro fa-1x"></i></span>
+                                            <input type="text" class="form-control" onkeyup="textMobileValidator()" placeholder="Enter Mobile No"
+                                                id="inputMobileNo">
+                                        </div>
+
+                                    </div>
+                                    <!-- land -->
+                                    <div class="col-4">
+                                        <label for="inputLandNo" class="form-label fw-bold">
+                                            Land No : <span class="text-danger">(Optional)</span>
+
+                                        </label>
+                                        <div class="input-group">
+                                            <span class="input-group-text"><i
+                                                    class="fa-solid fa-phone-volume fa-1x"></i></span>
+                                            <input type="text" class="form-control" placeholder="Enter Mobile No"
+                                                id="inputLandNo">
+                                        </div>
+                                    </div>
+                                    <!-- email -->
+
+                                    <div class="col-4">
+                                        <label for="inputEmail" class="form-label fw-bold" >
+                                            Email : <span class="text-danger"></span>
+
+                                        </label>
+                                        <div class="input-group">
+                                            <span class="input-group-text"><i
+                                                    class="fa-solid fa-envelope fa-1x"></i></span>
+                                            <input type="text" class="form-control" onkeyup="textEmailValidator(this)" placeholder="Enter Email"
+                                                id="inputEmail">
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- address/note -->
+                                <!-- address -->
+                                <div class="row mt-2">
+                                    <div class="col-6">
+                                        <div class="form-floating">
+                                            <textarea class="form-control" name="inputAddress" id="" cols="30" rows="10"
+                                                placeholder="Enter Address Here"></textarea>
+                                            <label for="inputAddress" class="form-label fw-bold">Address: <span
+                                                    class="text-danger">*</span> </label>
+
+
+                                        </div>
+                                    </div>
+                                    <!-- note -->
+
+                                    <div class="col-6">
+                                        <div class="form-floating">
+                                            <textarea class="form-control" name="" id="inputNote" cols="30" rows="10"
+                                                placeholder="Enter Note Here"></textarea>
+                                            <label for="inputNote" class="form-label fw-bold">Note:<span
+                                                    class="text-danger">(optional)</span></label>
+
+
+                                        </div>
+
+                                    </div>
+
+
+                                </div>
+                                <!-- Designation/Civil Status/Employee status -->
+                                <!-- designation -->
+                                <div class="row mt-1">
+                                    <div class="col-4">
+                                        <label for="inputDesignationLbl" class="form-label fw-bold">
+                                            Designation : <span class="text-danger">*</span>
+                                        </label>
+                                        <input type="text" class="form-control" placeholder="Select Designation"
+                                            id="inputDesignation">
+
+                                    </div>
+                                    <!-- civil status -->
+                                    <div class="col-4">
+                                        <label for="inputCivilStatusLbl" class="form-label fw-bold">
+                                            Civil Status : <span class="text-danger">*</span>
+                                        </label>
+                                        <select name="" id="" class="form-select" placehokder="Select Civil Status">
+                                            <option value="default" selected="true" disabled="disabled">Select Civil Status</option>
+                                            <option value="single">Single</option>
+                                            <option value="married">Married</option>
+                                        </select>
+
+
+                                    </div>
+                                    <!-- employee status -->
+                                    <div class="col-4">
+                                        <label for="inputEmployeeStatus" class="form-label fw-bold">
+                                            Employee Status : <span class="text-danger">*</span>
+                                        </label>
+                                        <select class="form-select" placeholder="Select Employee Status">
+                                            <option value="default" selected="true" disabled="disabled">Select Employee Status</option>
+                                            <option value="jobless">Jobless</option>
+                                            <option value="employeed">Employeed</option>
+                                        </select>
+
+                                    </div>
+
+                                </div>
+
+                                <div class="row mt-3">
+                                    <div class="col-4 text-start">
+
+
+
+                                        <button type="reset" class="btn fw-bold btn-reset">
+                                            <i class="fa-solid fa-recycle fa-1x"></i>
+                                            Clear
+
+                                        </button>
+
+
+
+                                    </div>
+                                    <div class="col-8 text-end">
+                                        <button type="submit" class="btn fw-bold btn-update">
+                                            Update
+                                        </button>
+
+                                        <button type="submit" onclick="submitEmployee()" class="btn btn-primary fw-bold btn-add">
+                                            Add
+                                        </button>
+
+
+                                    </div>
+                                </div>
+                            </form>
+                            <!-- form area end -->
+                        </div>
+                    </div>
+                    <!-- Form End -->
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Employee Add Modal End -->
+
+<script src="script/tableCommonFunctions.js"></script>
+
+<script src="employee.js"></script>
+
+</body>
+
+
+</html>

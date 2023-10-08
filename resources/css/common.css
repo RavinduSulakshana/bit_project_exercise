@@ -1,0 +1,17 @@
+.table-header {
+    background-color: rgb(46, 66, 134);
+    color: rgb(0, 0, 0);
+}
+
+body {
+    background: rgb(21,71,193);
+    background: linear-gradient(90deg, rgba(21,71,193,1) 0%, rgba(55,158,204,1) 32%, rgba(88,199,140,1) 83%);
+    background-size: cover;
+    
+}
+
+.title-div {
+    color: rgb(248, 248, 226);
+    background-color: rgba(30, 62, 85, 0.521);
+
+}
